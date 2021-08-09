@@ -10,10 +10,28 @@ function Contact(name, surname, phoneNumber, address) {
 var contactArr = [];
 
 // Update UI with contactArr 
-const updateUI = (arr) => {
+const updateUI = (contacts) => {
+    // Sort contacts alphabetically
+    let sortedContacts = contacts.sort((a, b) => {
+        let aName = a.name.toLowerCase();
+        let bName = b.name.toLowerCase();
+        if (aName < bName) { return -1; };
+        if (aName > bName) { return 1; };
+        return 0;
+    });
     const list = document.getElementById('contact-list');
-    let tableRows = '';
-    arr.forEach(contact => {
+    let tableRows = `
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th></th>
+            </tr>
+        </thead>
+    `;
+    sortedContacts.forEach(contact => {
         tableRows += `<tr><td>${contact.name}</td><td>${contact.surname}</td><td class="contact-phone-number">${contact.phoneNumber}</td><td>${contact.address}</td><td><a href='#' class='delete'>Delete</a></td></tr>`;
     });
     list.innerHTML = tableRows;
@@ -102,7 +120,7 @@ document.getElementById('contact-list').addEventListener('click', function (e) {
     var result = confirm('Are you sure?');
     if (result) {
         // Find contact phoneNumber
-        let num = this.firstChild.querySelector('.contact-phone-number').innerHTML;
+        let num = e.target.parentNode.previousSibling.previousSibling.innerHTML;
         // Filter contactArr to remove by phoneNumber
         contactArr = contactArr.filter(contact => contact.phoneNumber != num);
         // Success alert
