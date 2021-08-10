@@ -96,7 +96,7 @@ document.getElementById('contact-form').addEventListener('submit', function (e) 
     // Validation
     // Require at least a name and number
     if (name === '' || phoneNumber === '') {
-        showAlert('Please provide a name and phone number', 'error');
+        showAlert('Please provide both a name and phone number', 'error');
         // Ensure Phone number is unique
     } else if (contactArr.some(contact => { return contact.phoneNumber === phoneNumber })) {
         showAlert('That phone number already belongs to a contact', 'error');
