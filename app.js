@@ -20,17 +20,7 @@ const updateUI = (contacts) => {
         return 0;
     });
     const list = document.getElementById('contact-list');
-    let tableRows = `
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Phone Number</th>
-                <th>Address</th>
-                <th></th>
-            </tr>
-        </thead>
-    `;
+    let tableRows = '';
     sortedContacts.forEach(contact => {
         tableRows += `<tr><td>${contact.name}</td><td>${contact.surname}</td><td class="contact-phone-number">${contact.phoneNumber}</td><td>${contact.address}</td><td><a href='#' class='delete'>Delete</a></td></tr>`;
     });
@@ -117,6 +107,7 @@ document.getElementById('contact-form').addEventListener('submit', function (e) 
 // Event listener for delete contact
 document.getElementById('contact-list').addEventListener('click', function (e) {
     // Confirmation
+    if (e.target.className != 'delete') { return; };
     var result = confirm('Are you sure?');
     if (result) {
         // Find contact phoneNumber
@@ -130,12 +121,57 @@ document.getElementById('contact-list').addEventListener('click', function (e) {
     }
 });
 
+// Update ui with temp array where the query is included depending on the filter switch
+function updateUiFromSearch(query) {
+    switch (filterSwitch) {
+        case 'filter-all':
+            updateUI(contactArr.filter(contact => {
+                return contact.name.toLowerCase().includes(query) || contact.surname.toLowerCase().includes(query) || contact.phoneNumber.includes(query) || contact.address.toLowerCase().includes(query);
+            }));
+            break;
+        case 'filter-name':
+            updateUI(contactArr.filter(contact => {
+                return contact.name.toLowerCase().includes(query);
+            }));
+            break;
+        case 'filter-surname':
+            updateUI(contactArr.filter(contact => {
+                return contact.surname.toLowerCase().includes(query);
+            }));
+            break;
+        case 'filter-phoneNumber':
+            updateUI(contactArr.filter(contact => {
+                return contact.phoneNumber.includes(query);
+            }));
+            break;
+        case 'filter-address':
+            updateUI(contactArr.filter(contact => {
+                return contact.address.toLowerCase().includes(query);
+            }));
+            break;
+    }
+};
+
+// Var for filter switch
+var filterSwitch = 'filter-all';
+
+// Event Listener for filter-search-btn
+document.querySelectorAll('.filter-search-btn').forEach(element => element.addEventListener('click', function () {
+    // Highliting only the selected filter
+    document.querySelectorAll('.filter-search-btn').forEach(element => {
+        if (element.classList.contains('button-primary')) { element.classList.remove('button-primary') }
+    })
+    this.classList.add('button-primary');
+    // Changing the filter switch
+    filterSwitch = this.id;
+    // Rerunning the search with the new filter switch
+    const query = document.getElementById('contact-search').value;
+    updateUiFromSearch(query);
+}));
+
 // Event listener for search bar filter function
 document.getElementById('contact-search').addEventListener('keyup', function () {
     const query = this.value.toLowerCase();
-    // Update ui with temp array where the query is included in either name or surname
-    updateUI(contactArr.filter(contact => {
-        return contact.name.toLowerCase().includes(query) || contact.surname.toLowerCase().includes(query);
-    }));
+    updateUiFromSearch(query);
 });
 

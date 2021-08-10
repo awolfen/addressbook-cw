@@ -38,7 +38,23 @@
             </div>
         </form>
         <input type="text" placeholder="Search..." id="contact-search" class="u-full-width">
+        <div>
+            <button class="filter-search-btn button-primary" id="filter-all">All</button>
+            <button class="filter-search-btn" id="filter-name">Name</button>
+            <button class="filter-search-btn" id="filter-surname">Surname</button>
+            <button class="filter-search-btn" id="filter-phoneNumber">Phone Number</button>
+            <button class="filter-search-btn" id="filter-address">Address</button>
+        </div>
         <table class="u-full-width">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
             <tbody id="contact-list">
             </tbody>
 

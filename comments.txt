@@ -1,0 +1,3 @@
+Code originally based of a tutorial from "Modern JavaScript From The Beginning" - Brad Traversy (Udemy) ('Section 6: OOP Book List Project');
+Skeleton was used as a clean solution for a responsive css template - http://getskeleton.com/;
+JQuery was avoided in favor of vanilla JS, although could be substituted in if necessary;
